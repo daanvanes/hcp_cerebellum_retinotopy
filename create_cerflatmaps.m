@@ -1,6 +1,6 @@
 %% base setup
 
-data_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/best_subjects/';
+data_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/masked_niftis/';
 flatmap_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/suit_flatmaps/';
 
 %% own masks
@@ -84,14 +84,14 @@ close()
 %% 
 
 close('all')
- for s = [183]%,184,0:10]
+ for s = [184]%,184]%[0:10]%[183]%,184,0:10]
     
     if s == 183
-        masks = ["r2_spill_size"];%","r2_spill_ecc"];%,"r2high_spill","r2_buck"];"r2",
+        masks = ["r2_spill_fix"];%","r2_spill_ecc"];%,"r2high_spill","r2_buck"];"r2",
         sj = 'avg';
     elseif s == 184
         sj = 'wavg';
-        masks = ["r2_roi"];%["r2_roi"];
+        masks = ["r2_spill_fix"];%["r2_roi"];
     else
         masks = ["r2_roi"];%["r2_roi"];
         sj = num2str(s);
@@ -99,13 +99,13 @@ close('all')
     
     for mask = masks
     
-        for var = ["ecc2"]%["ecc","ecc2","polar","size","r2"]%,"dist","instim"]
+        for var = ["ang","ecc"]%["ecc","ecc2","polar","size","r2"]%,"dist","instim"]
             
 
 
             cm = hot(100);
             threshold=0;
-            if strcmp(var,'polar')
+            if strcmp(var,'ang')
                 cm = hsv(100);
                 sc = [0,360];
             elseif strcmp(var,'ecc')
@@ -119,10 +119,10 @@ close('all')
                 sc = [0,0.15];
             elseif strcmp(var,'bck')
                 sc = [0,100];                
-                threshold = 100
+                threshold = 100;
             elseif strcmp(var,'r2')
                 sc = [9.8,40]; 
-            elseif strcmp(var,'size')
+            elseif strcmp(var,'rfsize')
                 sc = [2,8];
                 threshold=0.1;
             elseif strcmp(var,'dist')
@@ -157,7 +157,7 @@ close('all')
 %             set(gcf,'units','inch','position',[0,0,5,5]);
             set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
 
-            fn = strcat(flatmap_dir,'figs/',savevar,'_',num2str(sj),'flatmap','_',mask,'.pdf');
+            fn = strcat(flatmap_dir,savevar,'_',num2str(sj),'flatmap','_',mask,'.pdf');
             print(gcf,fn,'-dpdf','-r300');
             close()
 

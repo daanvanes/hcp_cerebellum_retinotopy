@@ -3,6 +3,10 @@
 data_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/masked_niftis/';
 flatmap_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/suit_flatmaps/';
 
+addpath('/Applications/spm12')
+addpath('/Applications/spm12/toolbox/suit')
+addpath('/Users/daanvanes/disks/Aeneas_Home/git/hcp_cerebellum')
+
 %% own masks
 
 fn = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/atlases/all_masks_together.nii';
@@ -37,6 +41,8 @@ cm = [120,  18, 134;
 220, 248, 164  ;
 230, 148,  34  ;
  205,  62,  78]/255;
+
+
 suit_plotflatmap(Data,'type','label','cmap',cm)
 
 hAxes = gca;
@@ -45,7 +51,39 @@ axis off
 
 set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
 
-fn = strcat(flatmap_dir,'figs/Buckner7.pdf');
+fn = strcat(flatmap_dir,'Buckner7.pdf');
+print(gcf,fn,'-dpdf','-r300');
+close()
+
+%% buck 3
+
+cd /Applications/spm12/toolbox/suit/atlas;
+Data = suit_map2surf('buckner3_edited.nii','stats',@mode);
+cm = [0, 118,  14,  ;
+    120,  18, 134; 
+70, 130, 180  ;
+
+196,  58, 250;  
+220, 248, 164  ;
+230, 148,  34  ;
+ 205,  62,  78]/255;
+% cm = [1,1,1; 
+% 1,1,1;
+% 0,0,0;
+% 1,1,1;
+% 1,1,1;
+% 1,1,1;
+% 1,1,1];
+
+suit_plotflatmap(Data,'type','label','cmap',cm)
+
+hAxes = gca;
+hAxes.XRuler.Axle.LineStyle = 'none';
+axis off
+
+set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
+
+fn = strcat(flatmap_dir,'Buckner3.pdf');
 print(gcf,fn,'-dpdf','-r300');
 close()
 %% 17 network map
@@ -84,50 +122,82 @@ close()
 %% 
 
 close('all')
- for s = [184]%,184]%[0:10]%[183]%,184,0:10]
+ for s = [80:181]%[184]%[10:20]%,184]%[0:10]%[183]%,184,0:10]
     
     if s == 183
-        masks = ["r2_spill_fix"];%","r2_spill_ecc"];%,"r2high_spill","r2_buck"];"r2",
+        masks = ["r2","r2_spill","r2_spill_fix"];%","r2_spill_ecc"];%,"r2high_spill","r2_buck"];"r2",
         sj = 'avg';
     elseif s == 184
         sj = 'wavg';
-        masks = ["r2_spill_fix"];%["r2_roi"];
+        masks = ["r2_roi"];%"r2","r2_spill","r2_spill_fix"];%["r2_roi"];
+    elseif s == 185
+        sj = 'wavgmask';
+        masks = ["r2_roi"];%["r2_roi"];        
     else
         masks = ["r2_roi"];%["r2_roi"];
         sj = num2str(s);
     end
     
     for mask = masks
+                
     
-        for var = ["ang","ecc"]%["ecc","ecc2","polar","size","r2"]%,"dist","instim"]
+        for var = ["r2","ang","ecc","ecc2","rfsize"]%["ecc","ecc2","polar","size","r2"]%,"dist","instim"]
             
-
-
-            cm = hot(100);
+%             cm = hot(100);
             threshold=0;
+            func=@nanmean;
             if strcmp(var,'ang')
+%                   % remake from hcp paper:
+%                 hues = [linspace(144,193,100),linspace(193,232,100),linspace(232,268,100),linspace(268,303,100),linspace(303,330,100),linspace(330,357,100),linspace(357,55,100),linspace(55,144,100)]/360;
+%                 n = size(hues);
+%                 saturations = ones(1,n(2))*0.9;
+%                 brightnesses = ones(1,n(2))*0.9;
+%                 hsvs = vertcat([hues;saturations;brightnesses]);
+%                 cm =hsv2rgb(hsvs');  
+
+                % perceptually uniform:
+%                 cm = colorcet('C1');
+                
                 cm = hsv(100);
-                sc = [0,360];
+                sc = [0,pi*2];
+                func = @circ_mean_adapted;
             elseif strcmp(var,'ecc')
+                cm = colorcet('L3');
 %                 cm = [[0.05;0.4;0.7;0.9;1], zeros(5,2)];
 %                 colormap(cm);
                 
 %                 cm = jet(100);
-                sc = [0,8];
+                sc = [0,6];
 %                 threshold=0.075
             elseif strcmp(var,'ecc2')
-                sc = [0,0.15];
+                if sj == 183
+                    sc = [0,0.5];
+                else
+                    sc = [0,3];
+                end
+                cm = colorcet('L3');                
+                    
             elseif strcmp(var,'bck')
                 sc = [0,100];                
                 threshold = 100;
             elseif strcmp(var,'r2')
-                sc = [9.8,40]; 
+                cm = colorcet('L6');
+                
+%                 cm = cool(100);   
+                if sj == 183
+                    sc = [9.8,40];
+                elseif sj == 184
+                    sc = [3.7,15];
+                else
+                    sc = [2.2,10];
+                end
             elseif strcmp(var,'rfsize')
-                sc = [2,8];
-                threshold=0.1;
+                cm = colorcet('L5');
+                sc = [0,6];
+%                 threshold=0.1;
             elseif strcmp(var,'dist')
                 sc = [0,1];
-                threshold = 0.1;
+%                 threshold = 0.1;
             elseif strcmp(var,'instim')
                 sc = [0,1];
             end
@@ -145,7 +215,7 @@ close('all')
             end
             
             dir = char(strcat(data_dir,mask,'/','prfresults_subject_rank_',sj,'_',var,'.nii'));
-            Data = suit_map2surf(dir,'space','FSL','stats',@nanmean);
+            Data = suit_map2surf(dir,'space','FSL','stats',func,'depths',0:0.1:1);
             suit_plotflatmap(Data,'cmap',cm,'cscale',sc,'threshold',threshold);
                 
 %             colorbar;

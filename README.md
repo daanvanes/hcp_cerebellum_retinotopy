@@ -1,8 +1,10 @@
-# hcp_cerebellum retmaps
+# Cerebellar Retinotopic Maps
 
-### cerebellum atlas file
+### Cerebellum retinotopy atlas file
 
 The cerebellum retinotopic maps file can be found in the resources/volume_masks folder and is named 'cerebellum_retmaps.nii'. This file is in the 2mm MNI format. The indices to each map can be found in the 'cerebellum_retmaps.csv' file.
+
+### analysis
 
 This repo makes use of the cerebellar data in the 'HCP 7T Retinotopy' dataset. This dataset can be downloaded from https://osf.io/83wkp/.
 

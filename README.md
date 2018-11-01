@@ -20,6 +20,6 @@ The surface visualizations themselves are made in Matlab ('create_cerflatmaps.m'
 1. SPM + SUIT toolbox installed (http://www.diedrichsenlab.org/imaging/suit.htm)
 2. colorcet.m (https://www.peterkovesi.com/matlabfns/Colourmaps/colorcet.m), 
 3. and two custom functions (found in resources/mscript folder of this repo):
-    * circ_mean_adapted: this is adapted from the circstats toolbox to suit with the SUIT toolbox 
+    * circ_mean_adapted.m: this is adapted from the circstats toolbox to suit with the SUIT toolbox 
     * interpolate_cvals_rgbspace.m: to hep in creating custom colorbar 
 

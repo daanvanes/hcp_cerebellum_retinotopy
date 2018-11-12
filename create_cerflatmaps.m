@@ -10,10 +10,20 @@
 %% base setup
 
 % this dir should point to where the masked niftis are stored:
-data_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/masked_niftis/';
+data_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/hcp_cerebellum/';
+mask_dir = strcat(data_dir,'masked_niftis/');
 
 % this dir should point to where you want the flatmaps saved
 flatmap_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/hcp_data/suit_flatmaps/';
+if exist(flatmap_dir,'dir') ~= 7
+    mkdir(flatmap_dir)
+end
+
+% this is where the flattened data is stored
+flat_dir = strcat(data_dir,'flat_data/');
+if exist(flat_dir,'dir') ~= 7
+    mkdir(flat_dir)
+end
 
 % this should be your spm / suit install:
 addpath('/Applications/spm12')
@@ -26,6 +36,7 @@ fsl_cmap_dir = '/Applications/FSLeyes.app/Contents/Resources/assets/colourmaps/'
 resource_dir = '/Users/daanvanes/disks/Aeneas_Home/git/hcp_cerebellum/resources/';
 mat_functions = strcat(resource_dir,'mscripts');
 addpath(mat_functions)
+
 
 %% create flattened representation of cerebellar retinotopic masks
 
@@ -47,7 +58,7 @@ cm = [
 122, 135, 50;]/255;
             
 % save data matrix
-fn = strcat(resource_dir,'flat_data/','retmaps_flat.csv');
+fn = strcat(flat_dir,'retmaps_flat.csv');
 csvwrite(fn,Data)
 
 % plot flatmap
@@ -62,7 +73,7 @@ close()
 %% now create the actual flatmaps
 
 close('all')
- for s = [0:180,183] % ! sj here refers to subject rank, not original subject id (except for 183, which still refers to avg subject)
+ for s = [183]%[0:4,88:92,176:180,183] % ! sj here refers to subject rank, not original subject id (except for 183, which still refers to avg subject)
     
     if s == 183
         masks = ["r2","r2_spill","r2_spill_fix"];
@@ -132,14 +143,14 @@ close('all')
             end
 
             % load data:
-            dir = char(strcat(data_dir,mask,'/','prfresults_subject_rank_',sj,'_',var,'.nii'));
+            dir = char(strcat(mask_dir,mask,'/','prfresults_subject_rank_',sj,'_',var,'.nii'));
             Data = suit_map2surf(dir,'space','FSL','stats',func,'depths',0:0.1:1);
             
             
             % save data matrix (for later plots along a certain direction
             % on the flatmap)
             if ((sj == "avg") * ((var == "ang") + (var == "ecc")+ (var == "r2")) * strcmp(mask,'r2_spill_fix')) == 1
-                fn = strcat(resource_dir,'flat_data/',var,'_flatdata_avgsj.csv');
+                fn = strcat(flat_dir,var,'_flatdata_avgsj.csv');
                 csvwrite(fn,Data)
             end
             

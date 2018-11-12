@@ -2,7 +2,7 @@
 
 ## Resource files
 
-In the *resource* dir of this repo, you'll find a couple of heplful files. 
+In the *resource* dir of this repo, you'll find a couple of helpful files. 
 
 ### First, the resource/volume_masks contains:
 

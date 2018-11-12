@@ -16,8 +16,8 @@ This mask was used to select voxels that are on the border between the cerebral 
 
 ### Second, the resource/mscripts folder contains custom matlab functions:
 
-    * circ_mean_adapted.m: this is adapted from the circstats toolbox to suit with the SUIT toolbox 
-    * interpolate_cvals_rgbspace.m: to help in creating custom colorbar 
+* circ_mean_adapted.m: this is adapted from the circstats toolbox to suit with the SUIT toolbox 
+* interpolate_cvals_rgbspace.m: to help in creating custom colorbar 
 
 ## Notebooks
 

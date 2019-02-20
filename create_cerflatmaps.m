@@ -40,7 +40,6 @@ resource_dir = '/Users/daanvanes/disks/Aeneas_Home/git/hcp_cerebellum/resources/
 mat_functions = strcat(resource_dir,'mscripts');
 addpath(mat_functions)
 
-new_flat_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/cerebellum_prf/derivatives/pp/prf/';
 
 %% create flattened representation of cerebellar retinotopic masks
 
@@ -200,30 +199,29 @@ close('all')
 %% create tsnr maps
  
 close('all')
-% for s = [181:183]%[0:4,88:92,176:180]%,181:183]%:180]
 for s = [184,185,186]%[0:4,88:92,176:180]%,181:183]%:180]
 
     
     % load data:
-    dir = char(strcat(tsnr_dir,'sub_rank_',num2str(s),'_tsnr_avg_over_tasks.nii'))
-%     Data = suit_map2surf(dir,'space','FSL','stats',@nanmean,'depths',0:0.1:1);
-% 
-%     cm = colorcet('L8');             
-%     
-%     if (s ==180) + (s ==182) + (s == 183)
-%         sc = [0,750];    
-%     else
-%         sc = [0,75];
-%     end
+    dir = char(strcat(tsnr_dir,'sub_rank_',num2str(s),'_tsnr_avg_over_tasks.nii'));
+    Data = suit_map2surf(dir,'space','FSL','stats',@nanmean,'depths',0:0.1:1);
+
+    cm = colorcet('L8');             
+    
+    if (s ==180) + (s ==182) + (s == 183)
+        sc = [0,750];    
+    else
+        sc = [0,75];
+    end
                       
-%     suit_plotflatmap(Data,'cmap',cm,'cscale',sc);     
-%     hAxes = gca;
-%     hAxes.XRuler.Axle.LineStyle = 'none';
-%     axis off
-%     set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
-%     fn = strcat(flatmap_dir,'tSNR_',num2str(s),'.pdf');
-%     print(gcf,fn,'-dpdf','-r300');
-%     close()
+    suit_plotflatmap(Data,'cmap',cm,'cscale',sc);     
+    hAxes = gca;
+    hAxes.XRuler.Axle.LineStyle = 'none';
+    axis off
+    set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
+    fn = strcat(flatmap_dir,'tSNR_',num2str(s),'.pdf');
+    print(gcf,fn,'-dpdf','-r300');
+    close()
 
 end
 
@@ -249,8 +247,7 @@ close()
 
 %% new data 
 
-% new_flat_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/cerebellum_prf/derivatives/pp/prf/';
-% new_flat_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/cerebellum_prf/derivatives/pp/prf/';
+new_flat_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/cerebellum_prf/derivatives/pp/prf/';
 ses = '01020304';
 postFix = 'hrf075_nongcv';
 for r2thresh = [0.05,0.1,0.2]%0.05,0.1,0.2,0.3,0.4,0.5]
@@ -258,9 +255,6 @@ for r2thresh = [0.05,0.1,0.2]%0.05,0.1,0.2,0.3,0.4,0.5]
 
         fn = strcat(new_flat_dir,'sub-0',num2str(sub),'/sub-0',num2str(sub),'_new_prf_results_zscore_ses_',ses,postFix,'thresh_ang_',sprintf('%0.2f',r2thresh),'_cmask_pos.nii');
 
-        % create a colormap that is more focused on the lower
-        % visual fied:
-    %     cm=hsv(100);
         blue = [45,52,135];
         red = [153,27,68];
         yellow = [250,195,83];
@@ -287,10 +281,8 @@ for r2thresh = [0.05,0.1,0.2]%0.05,0.1,0.2,0.3,0.4,0.5]
         close()
     end
 end
-%% new data 
+%% new data 2
 
-% new_flat_dir = '/Users/daanvanes/disks/cartesius_project/cerprf/prf/';
-% new_flat_dir = '/Users/daanvanes/disks/aeneas_home/disks/cartesius_project/cerprf/prf/';
 new_flat_dir = '/Users/daanvanes/disks/Aeneas_Shared/2018/visual/cerebellum_prf/derivatives/pp/prf/';
 for sub = [1,2]%,3]%1,2,3]%["01"]%,"02","03"]
     for var = ["r2"]%"ang","ecc","size"]
@@ -300,11 +292,6 @@ for sub = [1,2]%,3]%1,2,3]%["01"]%,"02","03"]
             ses = '01020304';
         end
         fn = strcat(new_flat_dir,'sub-0',num2str(sub),'/sub-0',num2str(sub),'_new_prf_results_zscore_ses_',ses,'_cartfit_hrf0.75_gray_matter_cv_thresh_',var,'__spillmask_pos.nii');
-%         fn = strcat(new_flat_dir,'sub-0',num2str(sub),'/baron_r2diff.nii');
-    %         fn = strcat(new_flat_dir,'sub-0',num2str(sub),'/sub-0',num2str(sub),'_new_prf_results_zscore_ses_',ses,postFix,'thresh_ang_',sprintf('%0.2f',r2thresh),'_cmask_pos.nii');
-
-        % create a colormap that is more focused on the lower
-        % visual fied:
         
         if strcmp(var,'ang')
 
@@ -359,27 +346,27 @@ end
 %% Brissenden CV R2
 
 brissenden_dir = '/Users/daanvanes/Documents/Documenten/Research/data/hcp_retinotopy/brissenden_data/';
-    sc = [0.05,0.25];
-    threshold=0.05;
-% for s = [1,2,3,4,5]
-%     
+sc = [0.05,0.25];
+threshold=0.05;
+for s = [1,2,3,4,5]
+    
 
-% 
-%     fn = char(strcat(brissenden_dir,'S',num2str(s),'.xvalcorr.nii'));
-% 
-%     Data = suit_map2surf(fn,'depths',0:0.1:1);
-% 
-%     % plot flatmap
-%     suit_plotflatmap(Data,'cmap',colorcet('coolwarm'),'cscale',sc,'threshold',threshold)%,'type','label')
-%     hAxes = gca;
-%     hAxes.XRuler.Axle.LineStyle = 'none';
-%     axis off
-%     set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
-%     fn = strcat(brissenden_dir,'S',num2str(s),'.pdf');
-%     print(gcf,fn,'-dpdf','-r300');
-%     close() 
-%     
-% end
+
+    fn = char(strcat(brissenden_dir,'S',num2str(s),'.xvalcorr.nii'));
+
+    Data = suit_map2surf(fn,'depths',0:0.1:1);
+
+    % plot flatmap
+    suit_plotflatmap(Data,'cmap',colorcet('coolwarm'),'cscale',sc,'threshold',threshold)%,'type','label')
+    hAxes = gca;
+    hAxes.XRuler.Axle.LineStyle = 'none';
+    axis off
+    set(gcf,'paperunits','inches','papersize',[3,3],'paperposition',[-1.1,-1.1,5,5])
+    fn = strcat(brissenden_dir,'S',num2str(s),'.pdf');
+    print(gcf,fn,'-dpdf','-r300');
+    close() 
+    
+end
 
 fn = char(strcat(brissenden_dir,'avg_over_subs.nii'));
 

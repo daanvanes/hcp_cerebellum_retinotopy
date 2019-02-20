@@ -12,7 +12,7 @@ The cerebellum retinotopic maps file can be found in the resources/volume_masks 
 
 2. Spillovermask
 
-This mask was used to select voxels that are on the border between the cerebral and cerebellar cortex. This was used to exlude 'smoothed in' voxels that actually belong to ventral visual cortex.
+This mask was used to select voxels that are on the border between the cerebral and cerebellar cortex. This was used to exlude cerebral 'smoothed in' voxels that actually belong to ventral visual cortex.
 
 ### Second, the resource/mscripts folder contains custom matlab functions:
 
